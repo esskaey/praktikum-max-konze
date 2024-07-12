@@ -3,7 +3,7 @@ Being a web framework, Django needs a convenient way to generate HTML dynamicall
 
 ## Introduction
 The django template engine is an agnostic template engine which is not bound on the language used for building templates
- ![Template Organization](images/2022-04-01 12_07_19-Clipboard.jpg)
+ ![Template Organization](images/AppTemplateBlocks.jpg)
 
 The template provides the placeholders which are then rendered using the context as shown in the diagram above.
 
@@ -12,7 +12,7 @@ The template provides the placeholders which are then rendered using the context
 The webpages inside the django application are built with a modular approach.
 
 The recommended approach is to break down the page into multiple blocks(see the base.html in the image below)
-![Template structure](images/2022-04-01 12_11_14-Ubuntu-Dockers - VMware Workstation.jpg)
+![Template structure](images/TemplateOrganization.jpg)
 
 
 ## Extensions
