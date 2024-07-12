@@ -105,22 +105,76 @@ Git hook scripts are useful for identifying simple issues before submission to c
 
 ```yaml
 # .pre-commit-config.yaml file stored in the root of backend
+# you find the full pre-commit-tools docu under:
+# https://pre-commit.com/
 repos:
-  - repo: https://github.com/pre-commit/mirrors-black
-    rev: '23.3.0'  # Use the latest stable version
+  - repo: https://github.com/ambv/black
+    rev: 23.3.0
     hooks:
       - id: black
+        args: [--check, --diff, --config=./backend/pyproject.toml]
+        language_version: python3.10
+        stages: [push]
 
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: '5.10.1'  # Use the latest stable version
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
     hooks:
       - id: isort
+        name: isort
+        args: [--profile, black, --check, --diff, --sp=./backend/]
+        language_version: python3.10
+        stages: [push]
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.0.259'  # Use the latest stable version
+    # Ruff version.
+    rev: 'v0.0.282'
     hooks:
       - id: ruff
-        args: ['--fix']
+        args: [--fix, --exit-non-zero-on-fix]
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.3.2
+    hooks:
+      - id: pyupgrade
+        args: [ --py310-plus ]
+        language_version: python3.10
+        stages: [ push ]
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: 1.13.0
+    hooks:
+      - id: django-upgrade
+        args: [--target-version, "4.1"]
+        language_version: python3.10
+        stages: [ push ]
+
+  - repo: https://github.com/rtts/djhtml
+    rev: 3.0.6
+    hooks:
+      - id: djhtml
+        # Indent only HTML files in template directories
+        files: .*/templates/.*\.html$
+        stages: [ push ]
+        exclude: |
+          (?x)^(
+              .*/node_modules/.*|
+          )$
+      - id: djcss
+        entry: djcss --tabwidth 2
+        exclude: |
+          (?x)^(
+              .*/node_modules/.*|
+          )$
+        # Run this hook only on SCSS files (CSS and SCSS is the default)
+        types: [ scss ]
+        stages: [ push ]
+      - id: djjs
+        # Exclude JavaScript files in vendor directories
+        exclude: |
+          (?x)^(
+              .*/node_modules/.*|
+          )$
+        stages: [ push ]
 ```
 
 ```yaml
