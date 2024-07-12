@@ -216,4 +216,3 @@ Example: run all hooks of pre-push stage
 
 - [Django Templates](django_templates_intro.md)
 - [Tips and tricks](tips_tricks.md)
-- 
